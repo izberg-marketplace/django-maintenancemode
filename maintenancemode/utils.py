@@ -4,7 +4,13 @@ import os
 
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-from django.core.cache import get_cache
+try:
+    from django.core.cache import caches
+
+    def get_cache(cache_name):
+        return caches[cache_name]
+except:  # < django 1.9
+    from django.core.cache import get_cache
 from django.core.exceptions import ImproperlyConfigured
 
 from .conf import settings
